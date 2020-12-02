@@ -11,7 +11,7 @@ import {
 
 import { icons, images, SIZES, COLORS, FONTS } from '../constants'
 
-const Home = () => {
+const Home = ({ navigation }) => {
 
     // Dummy Datas
 
@@ -482,7 +482,10 @@ const Home = () => {
         const renderItem = ({ item }) => (
             <TouchableOpacity
                 style={{ marginBottom: SIZES.padding * 2 }}
-                onPress={() => console.log("Restaurant")}
+                onPress={() => navigation.navigate("Restaurant", {
+                    item,
+                    currentLocation
+                })}
             >
                 {/* Image */}
                 <View
