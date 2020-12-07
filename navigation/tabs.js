@@ -104,6 +104,10 @@ const Tabs = () => {
             tabBarOptions={{
                 showLabel: false,
                 style: {
+                    position: 'absolute',
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
                     borderTopWidth: 0,
                     backgroundColor: "transparent",
                     elevation: 0

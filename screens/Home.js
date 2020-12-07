@@ -339,10 +339,11 @@ const Home = ({ navigation }) => {
 
 
     function onSelectCategory(category) {
-        // filter restaurant
+        //filter restaurant
         let restaurantList = restaurantData.filter(a => a.categories.includes(category.id))
+
         setRestaurants(restaurantList)
-        // select category
+
         setSelectedCategory(category)
     }
 
@@ -364,7 +365,6 @@ const Home = ({ navigation }) => {
                         paddingLeft: SIZES.padding * 2,
                         justifyContent: 'center'
                     }}
-                    onPress={() => console.log("Nearby")}
                 >
                     <Image
                         source={icons.nearby}
@@ -379,7 +379,7 @@ const Home = ({ navigation }) => {
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <View
                         style={{
-                            width: "70%",
+                            width: '70%',
                             height: "100%",
                             backgroundColor: COLORS.lightGray3,
                             alignItems: 'center',
@@ -397,7 +397,6 @@ const Home = ({ navigation }) => {
                         paddingRight: SIZES.padding * 2,
                         justifyContent: 'center'
                     }}
-                    onPress={() => console.log("Basket")}
                 >
                     <Image
                         source={icons.basket}
@@ -451,8 +450,8 @@ const Home = ({ navigation }) => {
                     <Text
                         style={{
                             marginTop: SIZES.padding,
-                            ...FONTS.body5,
-                            color: (selectedCategory?.id == item.id) ? COLORS.white : COLORS.black
+                            color: (selectedCategory?.id == item.id) ? COLORS.white : COLORS.black,
+                            ...FONTS.body5
                         }}
                     >
                         {item.name}
@@ -490,7 +489,6 @@ const Home = ({ navigation }) => {
                 {/* Image */}
                 <View
                     style={{
-                        height: 200,
                         marginBottom: SIZES.padding
                     }}
                 >
@@ -503,6 +501,7 @@ const Home = ({ navigation }) => {
                             borderRadius: SIZES.radius
                         }}
                     />
+
                     <View
                         style={{
                             position: 'absolute',
@@ -542,9 +541,13 @@ const Home = ({ navigation }) => {
                     />
                     <Text style={{ ...FONTS.body3 }}>{item.rating}</Text>
 
-                    {/* Restaurant Categories */}
-                    <View style={{ flexDirection: 'row', marginLeft: 10 }}>
-                        {/* Categories */}
+                    {/* Categories */}
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            marginLeft: 10
+                        }}
+                    >
                         {
                             item.categories.map((categoryId) => {
                                 return (
@@ -553,7 +556,7 @@ const Home = ({ navigation }) => {
                                         key={categoryId}
                                     >
                                         <Text style={{ ...FONTS.body3 }}>{getCategoryNameById(categoryId)}</Text>
-                                        <Text style={{ ...FONTS.h3, color: COLORS.darkgray }}> · </Text>
+                                        <Text style={{ ...FONTS.h3, color: COLORS.darkgray }}> . </Text>
                                     </View>
                                 )
                             })
@@ -562,7 +565,13 @@ const Home = ({ navigation }) => {
                         {/* Price */}
                         {
                             [1, 2, 3].map((priceRating) => (
-                                <Text key={priceRating} style={{ ...FONTS.body3, color: (priceRating <= item.priceRating) ? COLORS.black : COLORS.darkgray }}>$</Text>
+                                <Text
+                                    key={priceRating}
+                                    style={{
+                                        ...FONTS.body3,
+                                        color: (priceRating <= item.priceRating) ? COLORS.black : COLORS.darkgray
+                                    }}
+                                >$</Text>
                             ))
                         }
                     </View>
@@ -572,10 +581,13 @@ const Home = ({ navigation }) => {
 
         return (
             <FlatList
-                contentContainerStyle={{ paddingHorizontal: SIZES.padding * 2, paddingBottom: 30 }}
                 data={restaurants}
                 keyExtractor={item => `${item.id}`}
                 renderItem={renderItem}
+                contentContainerStyle={{
+                    paddingHorizontal: SIZES.padding * 2,
+                    paddingBottom: 30
+                }}
             />
         )
     }
@@ -605,6 +617,5 @@ const styles = StyleSheet.create({
         elevation: 1,
     }
 })
-
 
 export default Home;

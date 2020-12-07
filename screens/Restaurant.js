@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
     StyleSheet,
     SafeAreaView,
@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     Image,
     Animated
-} from 'react-native';
+} from "react-native";
 import { isIphoneX } from 'react-native-iphone-x-helper'
 
 import { icons, COLORS, SIZES, FONTS } from '../constants'
@@ -16,8 +16,8 @@ const Restaurant = ({ route, navigation }) => {
 
     const scrollX = new Animated.Value(0);
     const [restaurant, setRestaurant] = React.useState(null);
+    const [currentLocation, setCurrentLocation] = React.useState(null);
     const [orderItems, setOrderItems] = React.useState([]);
-    const [currentLocation, setCurrentLocation] = React.useState(null)
 
     React.useEffect(() => {
         let { item, currentLocation } = route.params;
@@ -27,16 +27,16 @@ const Restaurant = ({ route, navigation }) => {
     })
 
     function editOrder(action, menuId, price) {
-        if (action == "+") {
-            let orderList = orderItems.slice()
-            let item = orderList.filter(a => a.menuId == menuId)
+        let orderList = orderItems.slice()
+        let item = orderList.filter(a => a.menuId == menuId)
 
+        if (action == "+") {
             if (item.length > 0) {
                 let newQty = item[0].qty + 1
                 item[0].qty = newQty
                 item[0].total = item[0].qty * price
             } else {
-                newItem = {
+                const newItem = {
                     menuId: menuId,
                     qty: 1,
                     price: price,
@@ -46,11 +46,7 @@ const Restaurant = ({ route, navigation }) => {
             }
 
             setOrderItems(orderList)
-        }
-        else {
-            let orderList = orderItems.slice()
-            let item = orderList.filter(a => a.menuId == menuId)
-
+        } else {
             if (item.length > 0) {
                 if (item[0]?.qty > 0) {
                     let newQty = item[0].qty - 1
@@ -58,10 +54,9 @@ const Restaurant = ({ route, navigation }) => {
                     item[0].total = newQty * price
                 }
             }
+
             setOrderItems(orderList)
-
         }
-
     }
 
     function getOrderQty(menuId) {
@@ -70,6 +65,7 @@ const Restaurant = ({ route, navigation }) => {
         if (orderItem.length > 0) {
             return orderItem[0].qty
         }
+
         return 0
     }
 
@@ -84,8 +80,6 @@ const Restaurant = ({ route, navigation }) => {
 
         return total.toFixed(2)
     }
-
-    // Render
 
     function renderHeader() {
         return (
@@ -108,7 +102,7 @@ const Restaurant = ({ route, navigation }) => {
                     />
                 </TouchableOpacity>
 
-                {/* Restaurant Name */}
+                {/* Restaurant Name Section */}
                 <View
                     style={{
                         flex: 1,
@@ -136,7 +130,6 @@ const Restaurant = ({ route, navigation }) => {
                         paddingRight: SIZES.padding * 2,
                         justifyContent: 'center'
                     }}
-                    onPress={() => console.log("List")}
                 >
                     <Image
                         source={icons.list}
@@ -160,12 +153,15 @@ const Restaurant = ({ route, navigation }) => {
                 snapToAlignment="center"
                 showsHorizontalScrollIndicator={false}
                 onScroll={Animated.event([
-                    { nativeEvent: { contentOffset: { x: scrollX } } },
+                    { nativeEvent: { contentOffset: { x: scrollX } } }
                 ], { useNativeDriver: false })}
             >
                 {
                     restaurant?.menu.map((item, index) => (
-                        <View key={`menu-${index}`} style={{ alignItems: 'center' }}>
+                        <View
+                            key={`menu-${index}`}
+                            style={{ alignItems: 'center' }}
+                        >
                             <View style={{ height: SIZES.height * 0.35 }}>
                                 {/* Food Image */}
                                 <Image
@@ -177,11 +173,11 @@ const Restaurant = ({ route, navigation }) => {
                                     }}
                                 />
 
-                                {/* Quantity Button */}
+                                {/* Quantity */}
                                 <View
                                     style={{
                                         position: 'absolute',
-                                        bottom: -20,
+                                        bottom: - 20,
                                         width: SIZES.width,
                                         height: 50,
                                         justifyContent: 'center',
@@ -238,12 +234,17 @@ const Restaurant = ({ route, navigation }) => {
                                     paddingHorizontal: SIZES.padding * 2
                                 }}
                             >
-                                <Text style={{ marginVertical: 10, textAlign: "center", ...FONTS.h2 }}>{item.name} - {item.price.toFixed(2)}</Text>
+                                <Text style={{ marginVertical: 10, textAlign: 'center', ...FONTS.h2 }}>{item.name} - {item.price.toFixed(2)}</Text>
                                 <Text style={{ ...FONTS.body3 }}>{item.description}</Text>
                             </View>
 
                             {/* Calories */}
-                            <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    marginTop: 10
+                                }}
+                            >
                                 <Image
                                     source={icons.fire}
                                     style={{
@@ -253,7 +254,9 @@ const Restaurant = ({ route, navigation }) => {
                                     }}
                                 />
 
-                                <Text style={{ ...FONTS.body3, color: COLORS.darkgray }}>{item.calories.toFixed(2)} cal</Text>
+                                <Text style={{
+                                    ...FONTS.body3, color: COLORS.darygray
+                                }}>{item.calories.toFixed(2)} cal</Text>
                             </View>
                         </View>
                     ))
@@ -264,25 +267,31 @@ const Restaurant = ({ route, navigation }) => {
 
     function renderDots() {
 
-        const dotPosition = Animated.divide(scrollX, SIZES.width);
+        const dotPosition = Animated.divide(scrollX, SIZES.width)
 
         return (
-            <View style={styles.dotsRootContainer}>
-
-                <View style={styles.dotsContainer}>
+            <View style={{ height: 30 }}>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: SIZES.padding
+                    }}
+                >
                     {restaurant?.menu.map((item, index) => {
 
                         const opacity = dotPosition.interpolate({
                             inputRange: [index - 1, index, index + 1],
                             outputRange: [0.3, 1, 0.3],
                             extrapolate: "clamp"
-                        });
+                        })
 
                         const dotSize = dotPosition.interpolate({
                             inputRange: [index - 1, index, index + 1],
                             outputRange: [SIZES.base * 0.8, 10, SIZES.base * 0.8],
                             extrapolate: "clamp"
-                        });
+                        })
 
                         const dotColor = dotPosition.interpolate({
                             inputRange: [index - 1, index, index + 1],
@@ -294,13 +303,19 @@ const Restaurant = ({ route, navigation }) => {
                             <Animated.View
                                 key={`dot-${index}`}
                                 opacity={opacity}
-                                style={[styles.dot, { width: dotSize, height: dotSize, backgroundColor: dotColor }]}
+                                style={{
+                                    borderRadius: SIZES.radius,
+                                    marginHorizontal: 6,
+                                    width: dotSize,
+                                    height: dotSize,
+                                    backgroundColor: dotColor
+                                }}
                             />
-                        );
+                        )
                     })}
                 </View>
             </View>
-        );
+        )
     }
 
     function renderOrder() {
@@ -309,29 +324,44 @@ const Restaurant = ({ route, navigation }) => {
                 {
                     renderDots()
                 }
-                <View style={{ backgroundColor: COLORS.white, borderTopLeftRadius: 40, borderTopRightRadius: 40 }}>
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        paddingVertical: SIZES.padding * 2,
-                        paddingHorizontal: SIZES.padding * 3,
-                        borderBottomColor: COLORS.lightGray2,
-                        borderBottomWidth: 1,
-                    }}>
-                        <Text style={{ ...FONTS.h3, }}>{getBasketItemCount()} items in Cart</Text>
-                        <Text style={{ ...FONTS.h3, }}>${sumOrder(0)}</Text>
+                <View
+                    style={{
+                        backgroundColor: COLORS.white,
+                        borderTopLeftRadius: 40,
+                        borderTopRightRadius: 40
+                    }}
+                >
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            paddingVertical: SIZES.padding * 2,
+                            paddingHorizontal: SIZES.padding * 3,
+                            borderBottomColor: COLORS.lightGray2,
+                            borderBottomWidth: 1
+                        }}
+                    >
+                        <Text style={{ ...FONTS.h3 }}>{getBasketItemCount()} items in Cart</Text>
+                        <Text style={{ ...FONTS.h3 }}>${sumOrder()}</Text>
                     </View>
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        paddingVertical: SIZES.padding * 2,
-                        paddingHorizontal: SIZES.padding * 3,
-                    }}>
+
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            paddingVertical: SIZES.padding * 2,
+                            paddingHorizontal: SIZES.padding * 3
+                        }}
+                    >
                         <View style={{ flexDirection: 'row' }}>
                             <Image
                                 source={icons.pin}
-                                style={{ width: 20, height: 20, tintColor: COLORS.darkgray }}
                                 resizeMode="contain"
+                                style={{
+                                    width: 20,
+                                    height: 20,
+                                    tintColor: COLORS.darkgray
+                                }}
                             />
                             <Text style={{ marginLeft: SIZES.padding, ...FONTS.h4 }}>Location</Text>
                         </View>
@@ -339,16 +369,25 @@ const Restaurant = ({ route, navigation }) => {
                         <View style={{ flexDirection: 'row' }}>
                             <Image
                                 source={icons.master_card}
-                                style={{ width: 20, height: 20, tintColor: COLORS.darkgray }}
                                 resizeMode="contain"
+                                style={{
+                                    width: 20,
+                                    height: 20,
+                                    tintColor: COLORS.darkgray
+                                }}
                             />
-                            <Text style={{ marginLeft: SIZES.padding, ...FONTS.h4 }}>···· 8888</Text>
+                            <Text style={{ marginLeft: SIZES.padding, ...FONTS.h4 }}>8888</Text>
                         </View>
-
                     </View>
 
                     {/* Order Button */}
-                    <View style={{ padding: SIZES.padding * 2, alignItems: 'center', justifyContent: 'center' }}>
+                    <View
+                        style={{
+                            padding: SIZES.padding * 2,
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
                         <TouchableOpacity
                             style={{
                                 width: SIZES.width * 0.9,
@@ -368,7 +407,16 @@ const Restaurant = ({ route, navigation }) => {
                 </View>
 
                 {isIphoneX() &&
-                    <View style={{ position: 'absolute', bottom: -34, left: 0, right: 0, height: 34, backgroundColor: COLORS.white }}>
+                    <View
+                        style={{
+                            position: 'absolute',
+                            bottom: -34,
+                            left: 0,
+                            right: 0,
+                            height: 34,
+                            backgroundColor: COLORS.white
+                        }}
+                    >
                     </View>
                 }
             </View>
@@ -388,20 +436,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.lightGray2
-    },
-    dotsRootContainer: {
-        height: 30,
-    },
-    dotsContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: SIZES.padding,
-    },
-    dot: {
-        borderRadius: SIZES.radius,
-        marginHorizontal: 6
     }
 })
 
-export default Restaurant
+export default Restaurant;
