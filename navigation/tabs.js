@@ -24,7 +24,7 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
                 <View style={{ flexDirection: 'row', position: 'absolute', top: 0 }}>
                     <View style={{ flex: 1, backgroundColor: COLORS.white }}></View>
                     <Svg
-                        width={75}
+                        width={70}
                         height={61}
                         viewBox="0 0 75 61"
                     >
