@@ -24,7 +24,7 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
                 <View style={{ flexDirection: 'row', position: 'absolute', top: 0 }}>
                     <View style={{ flex: 1, backgroundColor: COLORS.white }}></View>
                     <Svg
-                        width={70}
+                        width={75}
                         height={61}
                         viewBox="0 0 75 61"
                     >
@@ -101,17 +101,31 @@ const CustomTabBar = (props) => {
 const Tabs = () => {
     return (
         <Tab.Navigator
-            tabBarOptions={{
-                showLabel: false,
-                style: {
+            // tabBarOptions={{
+            //     showLabel: false,
+            //     style: {
+            //         position: 'absolute',
+            //         left: 0,
+            //         bottom: 0,
+            //         right: 0,
+            //         borderTopWidth: 0,
+            //         backgroundColor: "transparent",
+            //         elevation: 0
+            //     }
+            // }}
+            screenOptions={{
+                headerShown: false,
+                tabBarShowLabel: false,
+                tabBarStyle: {
                     position: 'absolute',
-                    left: 0,
                     bottom: 0,
+                    left: 0,
                     right: 0,
-                    borderTopWidth: 0,
+                    elevation: 0,
                     backgroundColor: "transparent",
-                    elevation: 0
-                }
+                    borderTopColor: "transparent",
+                    
+                }  
             }}
             tabBar={(props) => (
                 <CustomTabBar

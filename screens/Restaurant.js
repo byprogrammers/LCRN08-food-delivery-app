@@ -26,6 +26,8 @@ const Restaurant = ({ route, navigation }) => {
         setCurrentLocation(currentLocation)
     })
 
+    scrollX.addListener(() => { return});
+
     function editOrder(action, menuId, price) {
         let orderList = orderItems.slice()
         let item = orderList.filter(a => a.menuId == menuId)

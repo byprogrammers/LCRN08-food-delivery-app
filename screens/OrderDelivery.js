@@ -182,7 +182,7 @@ const OrderDelivery = ({ route, navigation }) => {
                         }}
                     />
                     {destinationMarker()}
-                    {carIcon()}
+                    {fromLocation? carIcon() : null}
                 </MapView>
             </View>
         )
